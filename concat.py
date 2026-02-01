@@ -112,15 +112,18 @@ Examples:
     parser.add_argument(
         '-o', '--output',
         type=str,
-        default='combined.md',
-        help='Output file path (default: combined.md)'
+        default=None,
+        help='Output file path (default: combined.md in the input directory)'
     )
     
     args = parser.parse_args()
     
     # Convert to Path objects
     input_dir = Path(args.input).resolve()
-    output_file = Path(args.output).resolve()
+    if args.output:
+        output_file = Path(args.output).resolve()
+    else:
+        output_file = (Path(__file__).resolve().parent / 'combined.md').resolve()
     
     # Validate input directory
     if not input_dir.exists():
